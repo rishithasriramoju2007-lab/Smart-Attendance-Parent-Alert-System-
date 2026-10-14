@@ -129,27 +129,22 @@ function getPeriodDetails(periodIds) {
 // -------------------- WHATSAPP RECIPIENTS --------------------
 
 function getWhatsAppRecipient(rollNumber) {
-  // Each recipient must have joined your Twilio Sandbox.
-  // Example: WHATSAPP_TO_CSM302=whatsapp:+91XXXXXXXXXX
-
-  const recipient = process.env[`WHATSAPP_TO_${rollNumber}`];
+  // First, check for a recipient configured for this student.
+  const recipient = process.env[`TWILIO_WHATSAPP_TO_${rollNumber}`];
 
   if (recipient && recipient.trim()) {
     return recipient.trim();
   }
 
-  // Keep compatibility with your original test number for CSM301.
-  if (rollNumber === "CSM301") {
-    const testRecipient = process.env.TEST_WHATSAPP_TO;
+  // Fall back to your general WhatsApp test number.
+  const testRecipient = process.env.TWILIO_WHATSAPP_TO;
 
-    if (testRecipient && testRecipient.trim()) {
-      return testRecipient.trim();
-    }
+  if (testRecipient && testRecipient.trim()) {
+    return testRecipient.trim();
   }
 
   return null;
 }
-
 // -------------------- SEND WHATSAPP --------------------
 
 async function sendWhatsAppMessage(rollNumber, message) {
