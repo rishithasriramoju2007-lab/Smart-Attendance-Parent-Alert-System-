@@ -51,8 +51,7 @@ const subjects = {
 };
 
 // -------------------- STUDENT DETAILS --------------------
-// These are demo student records.
-// Their phone fields are not used as actual WhatsApp destinations.
+// Demo student records. Phone fields are not used as WhatsApp destinations.
 
 const students = [
   {
@@ -129,14 +128,13 @@ function getPeriodDetails(periodIds) {
 // -------------------- WHATSAPP RECIPIENTS --------------------
 
 function getWhatsAppRecipient(rollNumber) {
-  // First, check for a recipient configured for this student.
-  const recipient = process.env[`TWILIO_WHATSAPP_TO_${rollNumber}`];
+  const recipient =
+    process.env[`TWILIO_WHATSAPP_TO_${rollNumber}`];
 
   if (recipient && recipient.trim()) {
     return recipient.trim();
   }
 
-  // Fall back to your general WhatsApp test number.
   const testRecipient = process.env.TWILIO_WHATSAPP_TO;
 
   if (testRecipient && testRecipient.trim()) {
@@ -145,6 +143,7 @@ function getWhatsAppRecipient(rollNumber) {
 
   return null;
 }
+
 // -------------------- SEND WHATSAPP --------------------
 
 async function sendWhatsAppMessage(rollNumber, message) {
